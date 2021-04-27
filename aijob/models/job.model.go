@@ -84,7 +84,7 @@ func StoreDataJobMeraih(code_Job string, nama_job string, keterangan string, buk
 	var res Response
 	con := db.CreateCon()
 
-	sqlStatement := "INSERT data_job_meraih (code_job, nama_job, keterangan, bukti, status, tanggal) VALUES (?, ?, ?, ?, ?)"
+	sqlStatement := "INSERT INTO data_job_meraih (code_job, nama_job, keterangan, bukti, status, tanggal) VALUES (?, ?, ?, ?, ?)"
 
 	stmt, err := con.Prepare(sqlStatement)
 	if err != nil {
