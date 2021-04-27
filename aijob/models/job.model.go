@@ -15,8 +15,8 @@ type DataJob struct {
 	Tanggal    string `json:"tanggal"`
 }
 
-func FetchAllDataJob() (Response, error) {
-
+// GET DATA JOB All
+func FetchAllDataJobAll() (Response, error) {
 	var obj DataJob
 	var arrobj []DataJob
 	var res Response
@@ -46,12 +46,45 @@ func FetchAllDataJob() (Response, error) {
 	return res, nil
 }
 
-func StoreDataJob(code_Job string, nama_job string, keterangan string, bukti string, status string, tanggal string) (Response, error) {
+// GET DATA JOB
+func FetchAllDataJobMeraih() (Response, error) {
+
+	var obj DataJob
+	var arrobj []DataJob
+	var res Response
+
+	con := db.CreateCon()
+	sqlStatement := "SELECT * FROM data_job_meraih ORDER BY id_meraih DESC"
+
+	rows, err := con.Query(sqlStatement)
+	defer rows.Close()
+
+	if err != nil {
+		return res, err
+	}
+	for rows.Next() {
+		err = rows.Scan(&obj.Id, &obj.Code_Job, &obj.Nama_Job, &obj.Keterangan, &obj.Bukti, &obj.Status, &obj.Tanggal)
+		if err != nil {
+			return res, err
+		}
+
+		arrobj = append(arrobj, obj)
+	}
+
+	res.Status = http.StatusOK
+	res.Message = "Success"
+	res.Data = arrobj
+
+	return res, nil
+}
+
+// PUT DATA JOB
+func StoreDataJobMeraih(code_Job string, nama_job string, keterangan string, bukti string, status string, tanggal string) (Response, error) {
 
 	var res Response
 	con := db.CreateCon()
 
-	sqlStatement := "INSERT data_job (code_job, nama_job, keterangan, bukti, status, tanggal) VALUES (?, ?, ?, ?, ?)"
+	sqlStatement := "INSERT data_job_meraih (code_job, nama_job, keterangan, bukti, status, tanggal) VALUES (?, ?, ?, ?, ?)"
 
 	stmt, err := con.Prepare(sqlStatement)
 	if err != nil {
@@ -77,12 +110,13 @@ func StoreDataJob(code_Job string, nama_job string, keterangan string, bukti str
 	return res, nil
 }
 
-func UpdateDataJob(id int, code_job string, nama_job string, keterangan string, bukti string, status string, tanggal string) (Response, error) {
+// UPDATE DATA JOB
+func UpdateDataJobMeraih(id int, code_job string, nama_job string, keterangan string, bukti string, status string, tanggal string) (Response, error) {
 
 	var res Response
 	con := db.CreateCon()
 
-	sqlStatement := "UPDATE data_job SET code_job = ?, nama_job = ?, keterangan = ?, bukti = ?, status = ?, tanggal = ? Where id = ?"
+	sqlStatement := "UPDATE data_job_meraih SET code_job = ?, nama_job = ?, keterangan = ?, bukti = ?, status = ?, tanggal = ? Where id = ?"
 	stmt, err := con.Prepare(sqlStatement)
 	if err != nil {
 		return res, err
@@ -107,12 +141,13 @@ func UpdateDataJob(id int, code_job string, nama_job string, keterangan string, 
 	return res, nil
 }
 
-func DeleteDataJob(id int) (Response, error) {
+// DELETE DATA JOB
+func DeleteDataJobMeraih(id int) (Response, error) {
 	var res Response
 
 	con := db.CreateCon()
 
-	sqlStatement := "DELETE FROM data_job WHERE id = ?"
+	sqlStatement := "DELETE FROM data_job_meraih WHERE id = ?"
 
 	stmt, err := con.Prepare(sqlStatement)
 	if err != nil {

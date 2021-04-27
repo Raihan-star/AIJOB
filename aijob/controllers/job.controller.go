@@ -8,8 +8,9 @@ import (
 	"github.com/labstack/echo"
 )
 
-func FetchAllDataJob(c echo.Context) error {
-	result, err := models.FetchAllDataJob()
+// GET DATA JOB ALL
+func FetchAllDataJobAll(c echo.Context) error {
+	result, err := models.FetchAllDataJobAll()
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
@@ -17,7 +18,18 @@ func FetchAllDataJob(c echo.Context) error {
 	return c.JSON(http.StatusOK, result)
 }
 
-func StoreDataJob(c echo.Context) error {
+// GET DATA JOB MERAIH
+func FetchAllDataJobMeraih(c echo.Context) error {
+	result, err := models.FetchAllDataJobMeraih()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, result)
+}
+
+// PUT DATA JOB MERAIH
+func StoreDataJobMeraih(c echo.Context) error {
 	code_Job := c.FormValue("code_job")
 	nama_Job := c.FormValue("nama_job")
 	keterangan := c.FormValue("keterangan")
@@ -25,14 +37,15 @@ func StoreDataJob(c echo.Context) error {
 	status := c.FormValue("status")
 	tanggal := c.FormValue("tanggal")
 
-	result, err := models.StoreDataJob(code_Job, nama_Job, keterangan, bukti, status, tanggal)
+	result, err := models.StoreDataJobMeraih(code_Job, nama_Job, keterangan, bukti, status, tanggal)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	return c.JSON(http.StatusOK, result)
 }
 
-func UpdateDataJob(c echo.Context) error {
+// UPDATE DATA JOB MERAIH
+func UpdateDataJobMeraih(c echo.Context) error {
 	id := c.FormValue("id")
 	code_Job := c.FormValue("code_job")
 	nama_Job := c.FormValue("nama_job")
@@ -46,14 +59,15 @@ func UpdateDataJob(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	result, err := models.UpdateDataJob(conv_id, code_Job, nama_Job, keterangan, bukti, status, tanggal)
+	result, err := models.UpdateDataJobMeraih(conv_id, code_Job, nama_Job, keterangan, bukti, status, tanggal)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	return c.JSON(http.StatusOK, result)
 }
 
-func DeleteDataJob(c echo.Context) error {
+// DELETE DATA JOB MERAIH
+func DeleteDataJobMeraih(c echo.Context) error {
 	id := c.FormValue("id")
 
 	conv_id, err := strconv.Atoi(id)
@@ -61,7 +75,7 @@ func DeleteDataJob(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	result, err := models.DeleteDataJob(conv_id)
+	result, err := models.DeleteDataJobMeraih(conv_id)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
