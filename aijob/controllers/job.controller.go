@@ -30,14 +30,13 @@ func FetchAllDataJobMeraih(c echo.Context) error {
 
 // PUT DATA JOB MERAIH
 func StoreDataJobMeraih(c echo.Context) error {
-	code_Job := c.FormValue("code_job")
-	nama_Job := c.FormValue("nama_job")
+	nama_job := c.FormValue("nama_job")
 	keterangan := c.FormValue("keterangan")
 	bukti := c.FormValue("bukti")
 	status := c.FormValue("status")
 	tanggal := c.FormValue("tanggal")
 
-	result, err := models.StoreDataJobMeraih(code_Job, nama_Job, keterangan, bukti, status, tanggal)
+	result, err := models.StoreDataJobMeraih(nama_job, keterangan, bukti, status, tanggal)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
@@ -47,7 +46,6 @@ func StoreDataJobMeraih(c echo.Context) error {
 // UPDATE DATA JOB MERAIH
 func UpdateDataJobMeraih(c echo.Context) error {
 	id := c.FormValue("id")
-	code_Job := c.FormValue("code_job")
 	nama_Job := c.FormValue("nama_job")
 	keterangan := c.FormValue("keterangan")
 	bukti := c.FormValue("bukti")
@@ -59,7 +57,7 @@ func UpdateDataJobMeraih(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	result, err := models.UpdateDataJobMeraih(conv_id, code_Job, nama_Job, keterangan, bukti, status, tanggal)
+	result, err := models.UpdateDataJobMeraih(conv_id, nama_Job, keterangan, bukti, status, tanggal)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}

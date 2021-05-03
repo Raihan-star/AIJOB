@@ -7,22 +7,21 @@ import (
 
 type DataJob struct {
 	Id         int    `json:"id"`
-	Code_Job   string `json:"code_Job"`
-	Nama_Job   string `json:"nama_job"`
+	Nama_job   string `json:"nama_job"`
 	Keterangan string `json:"keterangan"`
 	Bukti      string `json:"bukti"`
 	Status     string `json:"status"`
 	Tanggal    string `json:"tanggal"`
 }
 
-// GET DATA JOB All
+// GET DATA ID JOB GLOBAL
 func FetchAllDataJobAll() (Response, error) {
 	var obj DataJob
 	var arrobj []DataJob
 	var res Response
 
 	con := db.CreateCon()
-	sqlStatement := "SELECT * FROM data_job"
+	sqlStatement := "SELECT * FROM data_job_global"
 
 	rows, err := con.Query(sqlStatement)
 	defer rows.Close()
@@ -31,7 +30,7 @@ func FetchAllDataJobAll() (Response, error) {
 		return res, err
 	}
 	for rows.Next() {
-		err = rows.Scan(&obj.Id, &obj.Code_Job, &obj.Nama_Job, &obj.Keterangan, &obj.Bukti, &obj.Status, &obj.Tanggal)
+		err = rows.Scan(&obj.Id, &obj.Nama_job, &obj.Keterangan, &obj.Bukti, &obj.Status, &obj.Tanggal)
 		if err != nil {
 			return res, err
 		}
@@ -54,7 +53,7 @@ func FetchAllDataJobMeraih() (Response, error) {
 	var res Response
 
 	con := db.CreateCon()
-	sqlStatement := "SELECT * FROM data_job_meraih ORDER BY id_meraih DESC"
+	sqlStatement := "SELECT * FROM data_job_meraih ORDER BY id DESC"
 
 	rows, err := con.Query(sqlStatement)
 	defer rows.Close()
@@ -63,7 +62,7 @@ func FetchAllDataJobMeraih() (Response, error) {
 		return res, err
 	}
 	for rows.Next() {
-		err = rows.Scan(&obj.Id, &obj.Code_Job, &obj.Nama_Job, &obj.Keterangan, &obj.Bukti, &obj.Status, &obj.Tanggal)
+		err = rows.Scan(&obj.Id, &obj.Nama_job, &obj.Keterangan, &obj.Bukti, &obj.Status, &obj.Tanggal)
 		if err != nil {
 			return res, err
 		}
@@ -79,19 +78,19 @@ func FetchAllDataJobMeraih() (Response, error) {
 }
 
 // PUT DATA JOB
-func StoreDataJobMeraih(code_Job string, nama_job string, keterangan string, bukti string, status string, tanggal string) (Response, error) {
+func StoreDataJobMeraih(nama_job string, keterangan string, bukti string, status string, tanggal string) (Response, error) {
 
 	var res Response
 	con := db.CreateCon()
 
-	sqlStatement := "INSERT INTO data_job_meraih (code_job, nama_job, keterangan, bukti, status, tanggal) VALUES (?, ?, ?, ?, ?)"
+	sqlStatement := "INSERT INTO data_job_meraih (nama_job, keterangan, bukti, status, tanggal) VALUES (?, ?, ?, ?, ?)"
 
 	stmt, err := con.Prepare(sqlStatement)
 	if err != nil {
 		return res, err
 	}
 
-	result, err := stmt.Exec(code_Job, nama_job, keterangan, bukti, status, tanggal)
+	result, err := stmt.Exec(nama_job, keterangan, bukti, status, tanggal)
 	if err != nil {
 		return res, err
 	}
@@ -111,7 +110,7 @@ func StoreDataJobMeraih(code_Job string, nama_job string, keterangan string, buk
 }
 
 // UPDATE DATA JOB
-func UpdateDataJobMeraih(id int, code_job string, nama_job string, keterangan string, bukti string, status string, tanggal string) (Response, error) {
+func UpdateDataJobMeraih(id int, nama_job string, keterangan string, bukti string, status string, tanggal string) (Response, error) {
 
 	var res Response
 	con := db.CreateCon()
@@ -122,7 +121,7 @@ func UpdateDataJobMeraih(id int, code_job string, nama_job string, keterangan st
 		return res, err
 	}
 
-	result, err := stmt.Exec(code_job, nama_job, keterangan, bukti, status, tanggal, id)
+	result, err := stmt.Exec(nama_job, keterangan, bukti, status, tanggal, id)
 	if err != nil {
 		return res, err
 	}

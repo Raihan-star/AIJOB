@@ -8,23 +8,14 @@ import (
 	"github.com/rs/cors"
 )
 
-var ActionIndex = func(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("from action index"))
-}
-
-var ActionHome = http.HandlerFunc(
-	func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("from action home"))
-	},
-)
-
 func Init() *echo.Echo {
 	e := echo.New()
 
 	corsMiddleware := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
-		AllowedMethods:   []string{"OPTIONS", "GET", "POST", "PUT"},
-		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "OPTIONS", "PATCH"},
+		AllowedHeaders:   []string{"Content-Type", "application/json", "X-CSRF-Token", "Origin", "Cache-Control", "X-App-Token"},
+		ExposedHeaders:   []string{"*"},
 		AllowCredentials: true,
 		Debug:            true,
 	})
@@ -42,8 +33,8 @@ func Init() *echo.Echo {
 	e.POST("/visitorlogin", controllers.LoginDataVisitor)
 	e.GET("/visitordata", controllers.FetchAllDataVisitor)
 
-	e.GET("/", echo.WrapHandler(http.HandlerFunc(controllers.HandleGoogleMain)))
-	e.GET("/gologin", echo.WrapHandler(http.HandlerFunc(controllers.HandleGoogleLogin)))
-	e.GET("/callback", echo.WrapHandler(http.HandlerFunc(controllers.HandleGoogleCallback)))
+	e.GET("/auth/google", echo.WrapHandler(http.HandlerFunc(controllers.HandleGoogleLogin)))
+	e.GET("/auth/google/callback", echo.WrapHandler(http.HandlerFunc(controllers.HandleGoogleCallback)))
+	e.GET("/", echo.WrapHandler(http.HandlerFunc(controllers.HandleMain)))
 	return e
 }
