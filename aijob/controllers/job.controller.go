@@ -8,16 +8,6 @@ import (
 	"github.com/labstack/echo"
 )
 
-// GET DATA JOB ALL
-func FetchAllDataJobAll(c echo.Context) error {
-	result, err := models.FetchAllDataJobAll()
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
-	}
-
-	return c.JSON(http.StatusOK, result)
-}
-
 // GET DATA JOB MERAIH
 func FetchAllDataJobMeraih(c echo.Context) error {
 	result, err := models.FetchAllDataJobMeraih()
@@ -30,13 +20,26 @@ func FetchAllDataJobMeraih(c echo.Context) error {
 
 // PUT DATA JOB MERAIH
 func StoreDataJobMeraih(c echo.Context) error {
-	nama_job := c.FormValue("nama_job")
+	namajob := c.FormValue("namajob")
 	keterangan := c.FormValue("keterangan")
 	bukti := c.FormValue("bukti")
 	status := c.FormValue("status")
 	tanggal := c.FormValue("tanggal")
 
-	result, err := models.StoreDataJobMeraih(nama_job, keterangan, bukti, status, tanggal)
+	result, err := models.StoreDataJobMeraih(namajob, keterangan, bukti, status, tanggal)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(http.StatusOK, result)
+}
+func StoreDataJobMeraihQ(c echo.Context) error {
+	namajob := c.QueryParam("namajob")
+	keterangan := c.QueryParam("keterangan")
+	bukti := c.QueryParam("bukti")
+	status := c.QueryParam("status")
+	tanggal := c.QueryParam("tanggal")
+
+	result, err := models.StoreDataJobMeraihQ(namajob, keterangan, bukti, status, tanggal)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
@@ -46,7 +49,7 @@ func StoreDataJobMeraih(c echo.Context) error {
 // UPDATE DATA JOB MERAIH
 func UpdateDataJobMeraih(c echo.Context) error {
 	id := c.FormValue("id")
-	nama_Job := c.FormValue("nama_job")
+	namajob := c.FormValue("namajob")
 	keterangan := c.FormValue("keterangan")
 	bukti := c.FormValue("bukti")
 	status := c.FormValue("status")
@@ -57,7 +60,7 @@ func UpdateDataJobMeraih(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	result, err := models.UpdateDataJobMeraih(conv_id, nama_Job, keterangan, bukti, status, tanggal)
+	result, err := models.UpdateDataJobMeraih(conv_id, namajob, keterangan, bukti, status, tanggal)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}

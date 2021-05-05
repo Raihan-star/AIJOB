@@ -21,10 +21,10 @@ func Init() *echo.Echo {
 	})
 	e.Use(echo.WrapMiddleware(corsMiddleware.Handler))
 
-	e.GET("/aijoball", controllers.FetchAllDataJobAll /*, middleware.IsAuthenticated*/)       // GET JOB DATA ALL
 	e.GET("/aijobmeraih", controllers.FetchAllDataJobMeraih /*, middleware.IsAuthenticated*/) // GET JOB DATA MERAIH
 
-	e.POST("/aijobmeraih", controllers.StoreDataJobMeraih /*, middleware.IsAuthenticated*/)    // POST DATA JOB MERAIH
+	e.POST("/aijobmeraih", controllers.StoreDataJobMeraih /*, middleware.IsAuthenticated*/) // POST DATA JOB MERAIH
+	e.POST("/aijobmeraih", controllers.StoreDataJobMeraihQ /*, middleware.IsAuthenticated*/)
 	e.PUT("/aijobmeraih", controllers.UpdateDataJobMeraih /*, middleware.IsAuthenticated*/)    // UPDATE DATA JOB MERAIH
 	e.DELETE("/aijobmeraih", controllers.DeleteDataJobMeraih /*, middleware.IsAuthenticated*/) // DELETE DATA JIOB MERAIH
 	e.GET("/generate-hash/:password", controllers.GenerateHashPassword)                        // KONVERSI PASSWORD -> HASH
