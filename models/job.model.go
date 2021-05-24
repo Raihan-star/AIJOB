@@ -78,50 +78,19 @@ func StoreDataJobMeraih(job DataJob) (Response, error) {
 	return res, nil
 }
 
-func StoreDataJobMeraihQ(namajob string, keterangan string, bukti string, status string, tanggal string) (Response, error) {
-
-	var res Response
-	con := db.CreateCon()
-
-	sqlStatement := "INSERT INTO data_job_meraih (namajob, keterangan, bukti, status, tanggal) VALUES (?, ?, ?, ?, ?)"
-
-	stmt, err := con.Prepare(sqlStatement)
-	if err != nil {
-		return res, err
-	}
-
-	result, err := stmt.Exec(namajob, keterangan, bukti, status, tanggal)
-	if err != nil {
-		return res, err
-	}
-
-	lastInsertId, err := result.LastInsertId()
-	if err != nil {
-		return res, err
-	}
-
-	res.Status = http.StatusOK
-	res.Message = "Succes"
-	res.Data = map[string]int64{
-		"last_inserted_id": lastInsertId,
-	}
-
-	return res, nil
-}
-
 // UPDATE DATA JOB
-func UpdateDataJobMeraih(id int, namajob string, keterangan string, bukti string, status string, tanggal string) (Response, error) {
+func UpdateDataJobMeraih(job DataJob) (Response, error) {
 
 	var res Response
 	con := db.CreateCon()
 
-	sqlStatement := "UPDATE data_job_meraih SET code_job = ?, namajob = ?, keterangan = ?, bukti = ?, status = ?, tanggal = ? Where id = ?"
+	sqlStatement := "UPDATE data_job_meraih SET namajob = ?, keterangan = ?, bukti = ?, status = ?, tanggal = ? Where id = ?"
 	stmt, err := con.Prepare(sqlStatement)
 	if err != nil {
 		return res, err
 	}
 
-	result, err := stmt.Exec(namajob, keterangan, bukti, status, tanggal, id)
+	result, err := stmt.Exec(job.Namajob, job.Keterangan, job.Bukti, job.Status, job.Tanggal, job.Id)
 	if err != nil {
 		return res, err
 	}
@@ -141,7 +110,7 @@ func UpdateDataJobMeraih(id int, namajob string, keterangan string, bukti string
 }
 
 // DELETE DATA JOB
-func DeleteDataJobMeraih(id int) (Response, error) {
+func DeleteDataJobMeraih(job DataJob) (Response, error) {
 	var res Response
 
 	con := db.CreateCon()
@@ -153,7 +122,7 @@ func DeleteDataJobMeraih(id int) (Response, error) {
 		return res, err
 	}
 
-	result, err := stmt.Exec(id)
+	result, err := stmt.Exec(job.Id)
 	if err != nil {
 		return res, err
 	}

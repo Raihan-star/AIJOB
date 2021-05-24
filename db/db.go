@@ -17,12 +17,12 @@ func Init() {
 
 	db, err = sql.Open("mysql", connectionString)
 	if err != nil {
-		panic("connectionString error")
+		panic(err.Error())
 	}
 
 	err = db.Ping()
 	if err != nil {
-		panic("DSN Invalid")
+		panic(err.Error())
 	}
 
 }
