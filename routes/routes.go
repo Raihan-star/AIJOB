@@ -2,6 +2,7 @@ package routes
 
 import (
 	"aijob/controllers"
+	"aijob/end"
 	"net/http"
 
 	"github.com/labstack/echo/middleware"
@@ -28,5 +29,6 @@ func Init() *echo.Echo {
 	e.GET("/auth/google", echo.WrapHandler(http.HandlerFunc(controllers.HandleGoogleLogin)))
 	e.GET("/auth/google/callback", echo.WrapHandler(http.HandlerFunc(controllers.HandleGoogleCallback)))
 	e.GET("/", echo.WrapHandler(http.HandlerFunc(controllers.HandleMain)))
+	e.GET("/end", echo.WrapHandler(http.HandlerFunc(end.End)))
 	return e
 }

@@ -6,12 +6,12 @@ import (
 )
 
 type DataJob struct {
-	Id         int    `param:"id" query:"id" form:"id" json:"id" xml:"id"`
-	Namajob    string `param:"namajob" query:"namajob" form:"namajob" json:"namajob" xml:"namajob"`
-	Keterangan string `param:"keterangan" query:"keterangan" form:"keterangan" json:"keterangan" xml:"keterangan"`
-	Bukti      string `param:"bukti" query:"bukti" form:"bukti" json:"bukti" xml:"bukti"`
-	Status     string `param:"status" query:"status" form:"status" json:"status" xml:"status"`
-	Tanggal    string `param:"tanggal" query:"tanggal" form:"tanggal" json:"tanggal" xml:"tanggal"`
+	Id         int    `json:"id"`
+	Namajob    string `json:"namajob"`
+	Keterangan string `json:"keterangan"`
+	Bukti      string `json:"bukti"`
+	Status     string `json:"status"`
+	Tanggal    string `json:"tanggal"`
 }
 
 // GET DATA JOB
